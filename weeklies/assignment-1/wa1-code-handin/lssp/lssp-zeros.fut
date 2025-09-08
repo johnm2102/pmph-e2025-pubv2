@@ -11,7 +11,7 @@
 --  [0, 0, 0]  
 --}
 -- output {
---  5
+--  3
 --}
 
 import "lssp-seq"
