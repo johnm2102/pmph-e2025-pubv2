@@ -7,6 +7,12 @@
 -- output {
 --    5
 -- }
+-- compiled input {
+--  [0, 0, 0]  
+--}
+-- output {
+--  5
+--}
 
 import "lssp-seq"
 import "lssp"
