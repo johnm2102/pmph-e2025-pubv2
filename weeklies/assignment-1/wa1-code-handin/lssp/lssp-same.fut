@@ -15,7 +15,7 @@
 -- output {
 --    12i32
 -- }
---
+
 -- ==
 -- compiled input @ tdata.in
 -- output @ tdata_same.out
