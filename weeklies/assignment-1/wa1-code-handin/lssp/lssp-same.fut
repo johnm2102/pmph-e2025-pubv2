@@ -7,6 +7,14 @@
 -- output {
 --    5i32
 -- }
+-- Test with same numbers 
+-- compiled input {
+--    [1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32]
+-- }
+-- output {
+--    12i32
+-- }
+
 
 import "lssp"
 import "lssp-seq"
