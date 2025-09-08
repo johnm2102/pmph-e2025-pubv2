@@ -17,7 +17,7 @@
 --}
 -- Test to check for short run of zeroes
 -- compiled input {
---  [1, 2, 3, 0, 0, 8, 3, 0]  
+--  [1, 2, 3, 0, 0, 8, 3, 0, 9, 5]  
 --}
 -- output {
 --  2
