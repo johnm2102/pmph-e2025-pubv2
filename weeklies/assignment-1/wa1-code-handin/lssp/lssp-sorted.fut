@@ -14,6 +14,13 @@
 -- output { 
 --    10
 -- }
+-- Test to check with mixed unsorted list
+-- compiled input {
+--    [1, 2, 3, -4, 9, 4, -2, -3, -4, -5]
+-- }  
+-- output { 
+--    3
+-- }
 
 import "lssp"
 import "lssp-seq"
