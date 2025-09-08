@@ -20,7 +20,7 @@ let lss_redOp (pred2: i32 -> i32 -> bool)
 
   -- Weekly 1, task 2 -- LSSP
   -- TODO: fill in the 5 missing values (indicated by `???`).
-  let segments_connect = 
+  let segments_connect == 
     x_len = 0 
     || y_len = 0 
     || pred2 x_last y_first
