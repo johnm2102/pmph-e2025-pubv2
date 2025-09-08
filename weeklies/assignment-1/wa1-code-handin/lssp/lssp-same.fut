@@ -7,6 +7,7 @@
 -- output {
 --    5i32
 -- }
+--
 -- Test with same numbers 
 -- compiled input {
 --    [1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32, 1i32]
