@@ -1,7 +1,9 @@
 --------------------------------------------------------
 --- Attempting the sequential implementation of lssp ---
 --------------------------------------------------------
-
+--
+-- no_cuda no_opencl compiled input @ tdata.in
+-- output @ tdata.out
 type int = i32
 let max (x:int, y:int) = i32.max x y
 

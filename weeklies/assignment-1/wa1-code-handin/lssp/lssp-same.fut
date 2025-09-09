@@ -15,8 +15,11 @@
 -- output {
 --    12i32
 -- }
+-- "Sorted-array-1e7" script input { mk_input_sorted 10000000i64 }
+-- output { 10000000 }
 
-
+entry mk_input_sorted (n:i64) : [n]i32 = 
+  replicate n 1i32
 
 import "lssp"
 import "lssp-seq"
