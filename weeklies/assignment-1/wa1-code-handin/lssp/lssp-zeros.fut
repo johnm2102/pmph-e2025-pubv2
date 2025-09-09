@@ -22,7 +22,14 @@
 -- output {
 --  2
 --}
+--
+-- "Zero-array-1e7" script input { mk_input_zero 10000000i64 }
+-- output { 0i32 }
+--
+-- "Random-input-1e8" compiled random input { [100000000]i32 } auto output
 
+entry mk_input_zero (n:i64) : [n]i32 =
+  replicate n (-1i32)
 import "lssp-seq"
 import "lssp"
 
