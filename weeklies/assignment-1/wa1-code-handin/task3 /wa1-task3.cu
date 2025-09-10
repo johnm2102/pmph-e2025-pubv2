@@ -11,3 +11,17 @@
 #define CPU_RUNS 
 
 
+void naive_map(float *arr, int n, float *result, int result_size){
+    if (result_size < n) {
+        if (result_size < n){
+            printf("The result is less than n\n");
+            assert(0)
+        }
+        for (int i=0; i < n; i++){
+            float x = arr[i];
+            float temp = x / (x - 2.3);
+            result[i] = temp * temp * temp; 
+        }
+    }
+}
+
