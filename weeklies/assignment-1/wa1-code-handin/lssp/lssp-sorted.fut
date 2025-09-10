@@ -21,13 +21,8 @@
 -- output { 
 --    3
 -- }
--- "Sorted-array-1e6" script input { mk_input_sorted 1000000i64 }
--- output { 1000000 }
--- "Sorted-array-1e8" script input { mk_input_sorted 100000000i64 }
--- output { 100000000 }
-
-entry mk_input_sorted (n:i64) : [n]i32 = 
-  iota n |> map (\x -> i32.i64 x+1) -- [1..n]
+-- Benchmarking
+-- compiled random input { [100000]i32 }
 
 import "lssp"
 import "lssp-seq"
@@ -39,3 +34,14 @@ let main (xs: []int) : int =
   let pred2 x y = (x <= y)
 --  in  lssp_seq pred1 pred2 xs
   in  lssp pred1 pred2 xs
+
+-- ==
+-- entry: onlybench 
+-- input @ data.in 
+-- output @ data_sorted.out 
+
+entry onlybench (xs: []int) : int = 
+  let pred1 _ = true 
+  let pred2 x y = (x <= y)
+  -- in lssp_seq pred1 pred2 xs 
+  in lssp pred1 pred2 xs 

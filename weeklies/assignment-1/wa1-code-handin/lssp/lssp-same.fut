@@ -15,11 +15,11 @@
 -- output {
 --    12i32
 -- }
--- "Sorted-array-1e7" script input { mk_input_sorted 10000000i64 }
--- output { 10000000 }
-
-entry mk_input_sorted (n:i64) : [n]i32 = 
-  replicate n 1i32
+-- 
+-- == 
+-- entry: onlybench 
+-- input @ data.in 
+-- output @ data_same.out 
 
 import "lssp"
 import "lssp-seq"
@@ -29,3 +29,12 @@ let main (xs: []i32) : i32 =
   let pred2 x y = (x == y)
 --  in  lssp_seq pred1 pred2 xs
   in  lssp pred1 pred2 xs
+
+-- ==
+-- input @ data.in 
+-- output @ data_same.out 
+entry onlybench (xs: []i32) : i32 = 
+  let pred1 _x = true 
+  let pred2 x y = (x == y)
+  -- in lssp_seq pred1 pred2 xs
+  in lssp pred1 pred2 xs 
