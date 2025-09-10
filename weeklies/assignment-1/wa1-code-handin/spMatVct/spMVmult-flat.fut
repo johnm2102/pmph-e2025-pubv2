@@ -100,23 +100,59 @@ let sgmSumF32 [n] (flags: [n]bool) (vals: [n]f32) : [n]f32 =
 ---    with a map that extracts the last element  ---
 ---    of the segment.
 -----------------------------------------------------
+let mkFlagArray 't [m]
+  (aoa_shp: [m]i64)
+  (zero: t)
+  (aoa_val: [m]t) : []t = 
+
+  let shp_rot = map (\i ->
+    if i == 0 then 0
+    else aoa_shp[i-1]
+    ) (iota m)
+  let shp_scn = scan (+) 0 shp_rot
+  let aoa_len = if m == 0 then 0 
+                else shp_scn[m-1] + aoa_shp[m-1]
+  let shp_ind = map2 (\shp ind ->
+    if shp == 0 then -1
+    else ind
+  ) aoa_shp shp_scn
+  in scatter (replicate aoa_len zero) shp_ind aoa_val
 let spMatVctMult [num_elms][vct_len][num_rows]
                  (mat_val: [num_elms](i64, f32))
                  (mat_shp: [num_rows]i64)
                  (vct: [vct_len]f32)
                    : [num_rows]f32 =
 
-  let shp_sc = scan (+) 0 mat_shp
-  -- TODO: fill in your implementation here.
-  --       for now, the function simply returns zeroes.
-  let index = map(\i -> if i == 0 then 0 else shp_sc[i-1])(iota num_rows)
-  let flag = scatter (replicate num_elms false) index (replicate num_rows true)
-  let prod = map ( \(i,v) -> v*vct[i] ) mat_val
-  let seg_sum = sgmSumF32 flag prod 
-   in (map (\i -> seg_sum[i-1]) shp_sc)
+  -- inp: 
+  --    mat_shp[n_rows] (i64, f32)
+  -- out: [n_elms] bool 
+  let flag_arr = mkFlagArray mat_shp false (replicate num_rows true)
+  let typed_flag_arr = flag_arr :> [num_elms]bool
+  let products = map (\(ind, value) -> 
+    value * vct[ind]
+  ) mat_val 
+  let scan_res = sgmSumF32 typed_flag_arr products 
+  let last_indices = scan (+) 0 mat_shp 
+  let row_sums = map (
+    \i -> if i == 0 then
+      scan_res[i]
+    else
+      scan_res[i-1] 
+  ) last_indices
+  in row_sums
 
 -- One may run with for example:
 -- $ futhark dataset --i64-bounds=0:9999 -g [1000000]i64 --f32-bounds=-7.0:7.0 -g [1000000]f32 --i64-bounds=100:100 -g [10000]i64 --f32-bounds=-10.0:10.0 -g [10000]f32 | ./spMVmult-seq -t /dev/stderr -n
+-- entry: main 
+-- input {
+--   [0i64, 1i64, 0i64, 1i64, 2i64, 1i64, 2i64, 3i64, 2i64, 3i64, 3i64]
+--   [2.0f32, -1.0f32, -1.0f32, 2.0f32, -1.0f32, -1.0f32, 2.0f32, -1.0f32, -1.0f32, 2.0f32, 3.0f32]
+--   [2i64, 3i64, 3i64, 2i64, 1i64]
+--   [2.0f32, 1.0f32, 0.0f32, 3.0f32]
+-- }
+-- output { [3.0f32, 0.0f32, -4.0f32, 6.0f32, 9.0f32] }
+-- input @ data.in
+-- output @ data.out
 let main [n][m]
          (mat_inds: [n]i64)
          (mat_vals: [n]f32)
