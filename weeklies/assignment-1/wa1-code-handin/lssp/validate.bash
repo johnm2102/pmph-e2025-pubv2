@@ -17,7 +17,7 @@ for arg in "$@"; do
 done 
 
 #to check if cuda is available or not 
-if [ "$NOCUDA" = false ] && command -v nvdia-smi &> /dev/null; then 
+if [ "$NOCUDA" = false ] && command -v nvidia-smi &> /dev/null; then 
     BACKENDS=("cuda" "c")
 else 
     BACKENDS=("c")
