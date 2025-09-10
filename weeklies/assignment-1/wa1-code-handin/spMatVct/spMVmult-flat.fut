@@ -109,7 +109,11 @@ let spMatVctMult [num_elms][vct_len][num_rows]
   let shp_sc = scan (+) 0 mat_shp
   -- TODO: fill in your implementation here.
   --       for now, the function simply returns zeroes.
-   in replicate num_rows 0.0f32
+  let index = map(\i -> if i == 0 then 0 else shp_sc[i-1])(iota num_rows)
+  let flag = scatter (replicate num_elms false) index (replicate num_rows true)
+  let prod = map ( \(i,v) -> v*vct[i] ) mat_val
+  let seg_sum = sgmSumF32 flag prod 
+   in (map (\i -> seg_sum[i-1]) shp_sc)
 
 -- One may run with for example:
 -- $ futhark dataset --i64-bounds=0:9999 -g [1000000]i64 --f32-bounds=-7.0:7.0 -g [1000000]f32 --i64-bounds=100:100 -g [10000]i64 --f32-bounds=-10.0:10.0 -g [10000]f32 | ./spMVmult-seq -t /dev/stderr -n
