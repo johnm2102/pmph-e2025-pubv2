@@ -7,20 +7,19 @@ futhark c gen-lssp-sorted.fut && ./gen-lssp-sorted < data.in > data_sorted.out
 futhark c gen-lssp-zeros.fut && ./gen-lssp-zeros < data.in > data_zeros.out 
 
 echo "Benchmarking lssp-same"
-
-echo "c backend"
+echo "C Backend"
 futhark bench lssp-same.fut --entry-point=onlybench --backend=c
 futhark bench lssp-same.fut --entry-point=onlybench --backend=cuda 
-echo "cuda backend"
+echo "CUDA backend"
 
 echo "Benchmarking lssp-sorted"
-echo "c backend"
+echo "C Backend"
 futhark bench lssp-sorted.fut --entry-point=onlybench --backend=c
-echo "cuda backend"
+echo "Cuda Backend"
 futhark bench lssp-sorted.fut --entry-point=onlybench --backend=cuda 
 
 echo "Benchmark lssp-zeros"
-echo "c backend"
+echo "C Backend"
 futhark bench lssp-zeros.fut --entry-point=onlybench --backend=c 
-echo "cuda backend"
+echo "Cuda Backend"
 futhark bench lssp-zeros.fut --entry-point=onlybench --backend=cuda
