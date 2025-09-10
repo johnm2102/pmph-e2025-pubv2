@@ -15,7 +15,7 @@
 -- output {
 --    12i32
 -- }
--- 
+
 -- == 
 -- entry: onlybench 
 -- input @ data.in 
