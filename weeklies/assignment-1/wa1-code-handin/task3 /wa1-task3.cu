@@ -23,5 +23,8 @@ void naive_map(float *arr, int n, float *result, int result_size){
             result[i] = temp * temp * temp; 
         }
     }
+    __global__ void cuda_map(float* X, float* Y, int n){
+        const unsigned
+    }
 }
 
