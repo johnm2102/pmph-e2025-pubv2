@@ -21,7 +21,7 @@ $(SPMV_MAIN): spmv_mul_main.cu spmv_mul_kernels.cuh
 all: $(PBB_MAIN) $(SPMV_MAIN)
 
 run: $(PBB_MAIN) $(SPMV_MAIN)
-	./$(PBB_MAIN) 100003565 1024
+	./$(PBB_MAIN) 100003565 256
 	./$(SPMV_MAIN) 11033 2076 256
 
 run_pbb: $(PBB_MAIN)
