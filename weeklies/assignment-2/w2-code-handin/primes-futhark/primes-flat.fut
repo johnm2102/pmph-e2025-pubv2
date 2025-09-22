@@ -4,7 +4,7 @@
 -- compiled input { 10000000i64 }
 -- output @ ref10000000.out
 
-type tuple = {i64,i64}
+type tuple = (i64, i64)
 
 -- This code has been taken from the HelperCode/Lect2Flat
 let mkFlagArray 't [m] 
