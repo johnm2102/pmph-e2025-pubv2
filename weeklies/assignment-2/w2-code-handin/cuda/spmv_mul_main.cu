@@ -78,7 +78,7 @@ void seqSparseMatVctMult( int    tot_size, int  mat_width,
 }
 
 int SparseMatVctMult(int block_size, int mat_rows, int vct_size) {
-    unsigned long int elapsed;
+    uint64_t elapsed;
     struct timeval t_start, t_end, t_diff;
 
     int* rands   = (int*)malloc(mat_rows*sizeof(int));
@@ -152,8 +152,8 @@ int SparseMatVctMult(int block_size, int mat_rows, int vct_size) {
         // The total number of non-zero elements in the matrix is `tot_size`.
         // The number of rows in the matrix is `mat_rows`.
         // The block size of the CUDA block is `block_size`
-        unsigned int num_blocks     = (tot_size + block_size - 1)/block_size;  // TODO: replace this dummy value.
-        unsigned int num_blocks_shp = (mat_rows + block_size - 1)/block_size;  // TODO: replace this dummy value.
+        uint32_t num_blocks     = 1;  // TODO: replace this dummy value.
+        uint32_t num_blocks_shp = 1;  // TODO: replace this dummy value.
 
         { // copy-in stage
             cudaMemcpy(mat_shp_d,  rands,    mat_rows*sizeof(int),   cudaMemcpyHostToDevice);
