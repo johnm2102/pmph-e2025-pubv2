@@ -187,7 +187,7 @@ scanIncWarp(
     for(int d=0; d<5; d++) {
         int h = 1 << d; 
         if(lane >= h) {
-            ptr[idx+i] = OP::apply(ptr[idx+i-1], ptr[idx+i]);
+            ptr[idx] = OP::apply(ptr[idx-h], ptr[idx]);
         }
     }
     return OP::remVolatile(ptr[idx]);
