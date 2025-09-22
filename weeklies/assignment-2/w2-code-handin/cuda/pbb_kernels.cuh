@@ -211,6 +211,7 @@ __device__ inline typename OP::RedElTp
 scanIncBlock(volatile typename OP::RedElTp* ptr, const uint32_t idx) {
     const uint32_t lane   = idx & (WARP-1);
     const uint32_t warpid = idx >> lgWARP;
+    const uint32_t n_warps = (blockDim.x + WARP - 1) >> lgWARP;
 
     // 1. perform scan at warp level. `scanIncWarp` computes its result in-place
     //    and also returns the per-thread result.
@@ -221,7 +222,8 @@ scanIncBlock(volatile typename OP::RedElTp* ptr, const uint32_t idx) {
     //   the first warp. This works because
     //   warp size = 32, and
     //   max block size = 32^2 = 1024
-    if (lane == (WARP-1)) { ptr[warpid] = OP::remVolatile(ptr[idx]); }
+    typename OP:RedElTp end = OP::remVolatile(ptr[idx]);
+    if (lane == (WARP-1)) { ptr[warpid] = end; }
     __syncthreads();
 
     // 3. scan again the first warp.
