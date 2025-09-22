@@ -26,7 +26,7 @@ let mkFlagArray 't [m]
 
 -- using Segmented Scan from HelperCode/Lect2Flat
 let sgmScan [n] 't (op: t -> t -> t) (ne: t)
-                   (flags: [n]i32) (arr: [n]t) : [n]t =
+                   (flags: [n]i64) (arr: [n]t) : [n]t =
   let (_, res) =
     scan (\(x_flag,x) (y_flag,y) -> -- extended binop is denoted $\odot$
              let fl = x_flag | y_flag
