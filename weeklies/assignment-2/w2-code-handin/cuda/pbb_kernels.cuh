@@ -178,12 +178,15 @@ class Mssp {
  */
 template<class OP>
 __device__ inline typename OP::RedElTp
-scanIncWarp( volatile typename OP::RedElTp* ptr, const uint32_t idx ) {
+scanIncWarp( 
+    volatile typename OP::RedElTp* ptr, 
+    const uint32_t idx
+) {
     const uint32_t lane = idx & (WARP-1);
-
-    if(lane==0) {
-        #pragma unroll
-        for(int i=1; i<WARP; i++) {
+    #pragma unroll
+    for(int i=1; i<WARP; i++) {
+        int h = 1 << d;
+        if (lane >= h){
             ptr[idx+i] = OP::apply(ptr[idx+i-1], ptr[idx+i]);
         }
     }
@@ -208,18 +211,27 @@ __device__ inline typename OP::RedElTp
 scanIncBlock(volatile typename OP::RedElTp* ptr, const uint32_t idx) {
     const uint32_t lane   = idx & (WARP-1);
     const uint32_t warpid = idx >> lgWARP;
+    const unsigned int n_warps = (blockDim.x + WARP - 1) >> lgWARP;
 
     // 1. perform scan at warp level. `scanIncWarp` computes its result in-place
     //    and also returns the per-thread result.
     typename OP::RedElTp res = scanIncWarp<OP>(ptr,idx);
     __syncthreads();
 
+    typename OP::RedElTp end = OP::remVolatile(ptr[idx]);
+    __syncthreads();
+    if (lane == (WARP -1)) {
+        ptr[warpid] = end; 
+    }
+
+    __syncthreads();
+
     // 2. place the end-of-warp results in
     //   the first warp. This works because
     //   warp size = 32, and
     //   max block size = 32^2 = 1024
-    if (lane == (WARP-1)) { ptr[warpid] = OP::remVolatile(ptr[idx]); }
-    __syncthreads();
+    // if (lane == (WARP-1)) { ptr[warpid] = OP::remVolatile(ptr[idx]); }
+    //__syncthreads();
 
     // 3. scan again the first warp.
     if (warpid == 0) scanIncWarp<OP>(ptr, idx);
@@ -436,7 +448,8 @@ copyFromGlb2ShrMem( const uint32_t glb_offs
 ) {
     #pragma unroll
     for(uint32_t i=0; i<CHUNK; i++) {
-        uint32_t loc_ind = threadIdx.x*CHUNK + i;
+        //uint32_t loc_ind = threadIdx.x*CHUNK + i;
+        uint32_t loc_ind = i * blockDim.x + threadIdx.x;
         uint32_t glb_ind = glb_offs + loc_ind;
         T elm = ne;
         if(glb_ind < N) { elm = d_inp[glb_ind]; }
