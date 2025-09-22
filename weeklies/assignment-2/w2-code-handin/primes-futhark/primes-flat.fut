@@ -4,22 +4,34 @@
 -- compiled input { 10000000i64 }
 -- output @ ref10000000.out
 type tuple = {i64, i64}
-
-let mkFlagArray 't [m]
-            (aoa_shp: [m]i64)(zero: t) 
-            (aoa_val: [m]t  ):[]t =
-  let shp_rot = map(\i->if i==0 then 0
-                        else aoa_shp[i-1]
+-- this was taken from LH2:Helpercode 
+let mkFlagArray 't [m] 
+            (aoa_shp: [m]i64) (zero: t)   --aoa_shp=[0,3,1,0,4,2,0]
+            (aoa_val: [m]t  ) : []t   =   --aoa_val=[1,1,1,1,1,1,1]
+  let shp_rot = map (\i->if i==0 then 0   --shp_rot=[0,0,3,1,0,4,2]
+                         else aoa_shp[i-1]
                     ) (iota m)
-  let shp_scn = scan (+) 0 shp_rot
-  let aoa_len = if n == 0 then 0 
-                else shp_scn[n-1]+aoa_shp[n-1]
-  let shp_ind = map2 (\shp ind -> 
-                        if shp==0 then -1
-                        else ind
-                     ) aoa_shp shp_scn
-  in scatter (replicate aoa_len zero)
-              shp_ind aoa_val
+  let shp_scn = scan (+) 0 shp_rot       --shp_scn=[0,0,3,4,4,8,10]
+  let aoa_len = if m == 0 then 0         --aoa_len= 10
+                else shp_scn[m-1]+aoa_shp[m-1]
+  let shp_ind = map2 (\shp ind ->        --shp_ind= 
+                       if shp==0 then -1 --  [-1,0,3,-1,4,8,-1]
+                       else ind          --scatter
+                     ) aoa_shp shp_scn   --   [0,0,0,0,0,0,0,0,0,0]
+  in scatter (replicate aoa_len zero)    --   [-1,0,3,-1,4,8,-1]
+             shp_ind aoa_val             --   [1,1,1,1,1,1,1]
+                                     -- res = [1,0,0,1,1,0,0,0,1,0] 
+
+--Helpercode LH2
+let segmented_scan [n] 't (op: t -> t -> t) (ne: t)
+                          (flags: [n]bool) (arr: [n]t) : [n]t =
+  let (_, res) = unzip <|
+    scan (\(x_flag,x) (y_flag,y) ->
+             let fl = x_flag || y_flag
+             let vl = if y_flag then y else op x y
+             in  (fl, vl)
+         ) (false, ne) (zip flags arr)
+  in  res
 
 let flattened_iota [n] (mult_lens: [n]i64) : []i64 = 
     let rp = replicate n 1i64 
