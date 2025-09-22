@@ -1,8 +1,10 @@
-#! /bin/bash 
+#! /bin/bash
 
-module load cuda 
+
+module load cuda
 
 nvcc pbb_main.cu -o pbb_main
+
 
 arrays=(10003565 1003565 103565 13565)
 
