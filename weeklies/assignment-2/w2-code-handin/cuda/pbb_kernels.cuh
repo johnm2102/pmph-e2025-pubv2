@@ -178,12 +178,15 @@ class Mssp {
  */
 template<class OP>
 __device__ inline typename OP::RedElTp
-scanIncWarp( volatile typename OP::RedElTp* ptr, const uint32_t idx ) {
+scanIncWarp( 
+    volatile typename OP::RedElTp* ptr, 
+    const uint32_t idx 
+) {
     const uint32_t lane = idx & (WARP-1);
-
-    if(lane==0) {
-        #pragma unroll
-        for(int i=1; i<WARP; i++) {
+    #pragma unroll
+    for(int d=0; d<5; d++) {
+        int h = 1 << d; 
+        if(lane >= h) {
             ptr[idx+i] = OP::apply(ptr[idx+i-1], ptr[idx+i]);
         }
     }
