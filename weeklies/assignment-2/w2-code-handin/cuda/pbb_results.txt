@@ -1,0 +1,116 @@
+Device name: NVIDIA A100-PCIE-40GB
+Number of hardware threads: 221184
+Max block size: 1024
+Shared memory size: 49152
+====
+Testing parallel basic blocks
+N = 10003565
+block size = 1024
+ELEMS_PER_THREAD = 24
+
+Naive Memcpy GPU Kernel runs in: 81 microsecs, GB/sec: 988.01
+
+
+Testing Naive Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 244 microsecs, GB/sec: 163.99
+Reduce CPU Sequential runs in: 94750 microsecs, GB/sec: 0.42
+Reduce: VALID result!
+
+Testing Optimized Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 66 microsecs, GB/sec: 606.28
+Reduce CPU Sequential runs in: 92212 microsecs, GB/sec: 0.43
+Reduce: VALID result!
+
+Testing Naive Reduce with MSSP Operator:
+Reduce GPU Kernel runs in: 706 microsecs, GB/sec: 56.68
+Reduce CPU Sequential runs in: 430906 microsecs, GB/sec: 0.09
+Reduce: VALID result!
+
+Testing Optimized Reduce with MSSP Operator:
+Device name: NVIDIA A100-PCIE-40GB
+Number of hardware threads: 221184
+Max block size: 1024
+Shared memory size: 49152
+====
+Testing parallel basic blocks
+N = 1003565
+block size = 1024
+ELEMS_PER_THREAD = 24
+
+Naive Memcpy GPU Kernel runs in: 9 microsecs, GB/sec: 892.06
+
+
+Testing Naive Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 98 microsecs, GB/sec: 40.96
+Reduce CPU Sequential runs in: 9483 microsecs, GB/sec: 0.42
+Reduce: VALID result!
+
+Testing Optimized Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 25 microsecs, GB/sec: 160.57
+Reduce CPU Sequential runs in: 9278 microsecs, GB/sec: 0.43
+Reduce: VALID result!
+
+Testing Naive Reduce with MSSP Operator:
+Reduce GPU Kernel runs in: 156 microsecs, GB/sec: 25.73
+Reduce CPU Sequential runs in: 57695 microsecs, GB/sec: 0.07
+Reduce: VALID result!
+
+Testing Optimized Reduce with MSSP Operator:
+Device name: NVIDIA A100-PCIE-40GB
+Number of hardware threads: 221184
+Max block size: 1024
+Shared memory size: 49152
+====
+Testing parallel basic blocks
+N = 103565
+block size = 1024
+ELEMS_PER_THREAD = 24
+
+Naive Memcpy GPU Kernel runs in: 5 microsecs, GB/sec: 165.70
+
+
+Testing Naive Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 74 microsecs, GB/sec: 5.60
+Reduce CPU Sequential runs in: 634 microsecs, GB/sec: 0.65
+Reduce: VALID result!
+
+Testing Optimized Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 18 microsecs, GB/sec: 23.01
+Reduce CPU Sequential runs in: 600 microsecs, GB/sec: 0.69
+Reduce: VALID result!
+
+Testing Naive Reduce with MSSP Operator:
+Reduce GPU Kernel runs in: 99 microsecs, GB/sec: 4.18
+Reduce CPU Sequential runs in: 3865 microsecs, GB/sec: 0.11
+Reduce: VALID result!
+
+Testing Optimized Reduce with MSSP Operator:
+Device name: NVIDIA A100-PCIE-40GB
+Number of hardware threads: 221184
+Max block size: 1024
+Shared memory size: 49152
+====
+Testing parallel basic blocks
+N = 13565
+block size = 1024
+ELEMS_PER_THREAD = 24
+
+Naive Memcpy GPU Kernel runs in: 4 microsecs, GB/sec: 27.13
+
+
+Testing Naive Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 60 microsecs, GB/sec: 0.90
+Reduce CPU Sequential runs in: 140 microsecs, GB/sec: 0.39
+Reduce: VALID result!
+
+Testing Optimized Reduce with Int32 Addition Operator:
+Reduce GPU Kernel runs in: 17 microsecs, GB/sec: 3.19
+Reduce CPU Sequential runs in: 124 microsecs, GB/sec: 0.44
+Reduce: VALID result!
+
+Testing Naive Reduce with MSSP Operator:
+Reduce GPU Kernel runs in: 73 microsecs, GB/sec: 0.74
+Reduce CPU Sequential runs in: 841 microsecs, GB/sec: 0.06
+Reduce: VALID result!
+
+Testing Optimized Reduce with MSSP Operator:
