@@ -17,7 +17,7 @@ void goldenSeq(ElTp* A, ElTp* B, const uint32_t num_rows, const uint32_t num_col
     /***   - and if neccessary by a very tiny bit   ***/
     /***     of code changes                        ***/
     /**************************************************/
-    ElTp accum, a_el;
+    //ElTp accum, a_el;
     
     #pragma omp parallel for private(a_el, accum)
     for(uint64_t i = 0; i < num_rows; i++) {
