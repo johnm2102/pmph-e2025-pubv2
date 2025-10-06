@@ -98,6 +98,9 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
    * Remember to flatten the indices to all arrays
    * hold in global memory, i.e., A, B, X_tr, Y.
    ***********************************************/
-
+  for (int q = 0; q < N; q++ ){
+    ElTp a = A[j1 * N + q]; 
+    
+  }
 }
 #endif
