@@ -107,7 +107,7 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
       tmp = X_tr[q * M + i + flat_thid];
     }
     Xsh_tr[flat_thid] = tmp; 
-    __syncthreads()
+    __syncthreads();
 
     #pragma unroll 
     for(int i_r = 0; i_r < T; i_r++){
