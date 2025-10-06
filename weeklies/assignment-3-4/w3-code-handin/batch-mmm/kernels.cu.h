@@ -100,28 +100,31 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
    * hold in global memory, i.e., A, B, X_tr, Y.
    ***********************************************/
   for (int q = 0; q < N; q++ ){
-    ElTp a = A[j1 * N + q]; 
-    ElTp b = B[q * K + j2];
-    char tmp = 0; 
-    if (flat_thid < T && i + flat_thid < M){
-      tmp = X_tr[q * M + i + flat_thid];
+    if (flat_thid < T) {
+      const int i_idx = ii + flat_thid; 
+      Xsh_tr[flat_thid] = (i_idx < M)
+        ? static_cast <ElTp>(X_tr[q* M + i_idx])
+        : ElTp{0};
     }
-    Xsh_tr[flat_thid] = tmp; 
     __syncthreads();
+    
+    const ElTp a = A[j1 * N + q]; 
+    const ElTp b = B[q * K + j2]; 
+    const ElTp ab = a * b;
 
     #pragma unroll 
-    for(int i_r = 0; i_r < T; i_r++){
-      if(i+ i_r < M){
-        ElTp x = (Xsh_tr[i_r] != 0) ? 1.0 : 0.0; 
-        acc[i_r] += a * b * x; 
+    for (int i_r = 0; i_r < T; ++i_r){
+      if (ii + i_r < M){
+        const ElTp x = (Xsh_tr[i_r] != ElTp{0}) ? ElTp{1} : ElTp{0};
+        acc[i_r] += ab * x;
       }
     }
     __syncthreads();
   }
   #pragma unroll 
-  for (int i_r = 0; i_r< T; i_r++){
-    if(i + i_r < M){
-      Y[(i + i_r) * K * K + j1 * K + j2] = acc[i_r];
+  for (int i_r = 0; i_r<T; ++i_r){
+    if (ii + i_r < M){
+      Y[(ii + i_r) * (K * K) + j1 * K + j2] = acc[i_r];
     }
   }
 }
