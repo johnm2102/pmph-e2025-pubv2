@@ -102,10 +102,10 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
     ElTp a = A[j1 * N + q]; 
     ElTp b = B[q * K + j2];
     char tmp = 0; 
-    if (flat_idx < T && i + flat_idx < M){
-      tmp = X_tr[q * M + i + flat_idx];
+    if (flat_thid < T && i + flat_thid < M){
+      tmp = X_tr[q * M + i + flat_thid];
     }
-    Xsh_tr[flat_idx] = tmp; 
+    Xsh_tr[flat_thid] = tmp; 
     __syncthreads()
 
     #pragma unroll 
@@ -118,7 +118,7 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
     __syncthreads();
   }
   #pragma unroll 
-  for (int i_r = 0; i_r<T; i_r++){
+  for (int i_r = 0; i_r< T; i_r++){
     if(i + i_r < M){
       Y[(i + i_r) * K * K + j1 * K + j2] = acc[i_r];
     }
