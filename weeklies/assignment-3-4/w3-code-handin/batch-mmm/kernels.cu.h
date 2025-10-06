@@ -100,7 +100,28 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
    ***********************************************/
   for (int q = 0; q < N; q++ ){
     ElTp a = A[j1 * N + q]; 
-    
+    ElTp b = B[q * K + j2];
+    char tmp = 0; 
+    if (flat_idx < T && i + flat_idx < M){
+      tmp = X_tr[q * M + i + flat_idx];
+    }
+    Xsh_tr[flat_idx] = tmp; 
+    __syncthreads()
+
+    #pragma unroll 
+    for(int i_r = 0; i_r < T; i_r++){
+      if(i+ i_r < M){
+        ElTp x = (Xsh_tr[i_r] != 0) ? 1.0 : 0.0; 
+        acc[i_r] += a * b ( x); 
+      }
+    }
+    __syncthreads();
+  }
+  #pragma unroll 
+  for (int i_r = 0; i_r<T; i_r++){
+    if(i + i_r < M){
+      Y[(i + i_r) * K * K + j1 * K + j2] = acc[i_r];
+    }
   }
 }
 #endif
