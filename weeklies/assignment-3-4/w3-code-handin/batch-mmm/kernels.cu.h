@@ -112,7 +112,7 @@ void bmmmTiledKer ( ElTp* A,      ElTp* B, char* X_tr,   ElTp* Y
     for(int i_r = 0; i_r < T; i_r++){
       if(i+ i_r < M){
         ElTp x = (Xsh_tr[i_r] != 0) ? 1.0 : 0.0; 
-        acc[i_r] += a * b ( x); 
+        acc[i_r] += a * b * x; 
       }
     }
     __syncthreads();
