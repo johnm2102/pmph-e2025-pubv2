@@ -98,6 +98,16 @@ __global__ void mmmSymBlkRegInnSeqKer(ElTp* A, ElTp* B, ElTp* C, int heightA, in
        **************************************************************/
       
        // Please implement Task 3.1.1 here
+       for (int i = 0; i < Ry; i++){
+        int row = iii + threadIdx.y * Ry + i;
+        int col = kk + threadIdx.x; 
+        if (row < heightA && col < widthA){
+          Aloc[threadIdx.y * Ry + i][threadIdx.x] = A[row * widthA + col]; 
+        } 
+        else {
+          Aloc[threadIdx.y * Ry + i][threadIdx.x] = 0.0;
+        }
+       }
 
       /***************************************
        * Subtask 3.1.2:
@@ -128,6 +138,17 @@ __global__ void mmmSymBlkRegInnSeqKer(ElTp* A, ElTp* B, ElTp* C, int heightA, in
 
       // Please implement Task 3.1.2 here
 
+      for (int j = 0; j < Rx; j++){
+        int row = kk + threadIdx.y; 
+        int col = jjj + threadIdx.x * Rx + j; 
+        if (row < widthA && col < widthB){
+          Bloc[threadIdx.y][threadIdx.x Rx + j]=B[row * widthB + col];
+        } 
+        else {
+          Bloc[threadIdx.y][threadIdx.x * Rx + j] = 0.0;
+        }
+      }
+
       __syncthreads();
 
       // compute the per-thread result css:
@@ -146,10 +167,10 @@ __global__ void mmmSymBlkRegInnSeqKer(ElTp* A, ElTp* B, ElTp* C, int heightA, in
                  * This assumes of course that you have 
                  *   already solved Task 3.1.
                  ***************************************/
-                  if( (iii + threadIdx.y*Ry + i < heightA) &&
+                  /*if( (iii + threadIdx.y*Ry + i < heightA) &&
                       (kk+k < widthA) &&
                       (jjj + threadIdx.x*Rx + j < widthB)
-                    )
+                    )*/
                   css[i][j] +=  
                     A[ (iii + threadIdx.y*Ry + i)*widthA + (kk + k)] *
                     B[ (kk+k)*widthB + jjj + threadIdx.x*Rx + j] ;
