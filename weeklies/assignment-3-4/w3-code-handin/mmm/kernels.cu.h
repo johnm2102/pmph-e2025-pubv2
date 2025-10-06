@@ -142,7 +142,7 @@ __global__ void mmmSymBlkRegInnSeqKer(ElTp* A, ElTp* B, ElTp* C, int heightA, in
         int row = kk + threadIdx.y; 
         int col = jjj + threadIdx.x * Rx + j; 
         if (row < widthA && col < widthB){
-          Bloc[threadIdx.y][threadIdx.x Rx + j]=B[row * widthB + col];
+          Bloc[threadIdx.y][threadIdx.x * Rx + j]=B[row * widthB + col];
         } 
         else {
           Bloc[threadIdx.y][threadIdx.x * Rx + j] = 0.0;
